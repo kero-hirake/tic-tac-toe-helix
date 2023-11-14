@@ -3,7 +3,7 @@
  ["src"]
 
  :dependencies
- []
+ [[lilactown/helix "0.2.0"]]
 
  :dev-http {5003 "resources/public"}
  :builds
