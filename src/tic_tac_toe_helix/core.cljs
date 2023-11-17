@@ -1,27 +1,31 @@
 (ns tic-tac-toe-helix.core
-  (:require [helix.core :refer [defnc $]]
+  (:require [helix.core :refer [defnc $ <>]]
             [helix.hooks :as hooks]
             [helix.dom :as d]
+            ["react" :as r]
             ["react-dom/client" :as rdom]))
 
-(defnc greeting
-  "A component which greets a user."
-  [{:keys [name]}]
-  ;; use helix.dom to create DOM elements
-  (d/div "Hello, " (d/strong name) "!"))
+(defnc board [] 
+  (<>
+   (d/div {:class-name "board-row"}
+             (d/button {:class-name "square"
+                        :on-click #(println "clicked")} "1")
+             (d/button {:class-name "square"} "2")
+             (d/button {:class-name "square"} "3")) 
+   (d/div {:class-name "board-row"}
+             (d/button {:class-name "square"} "4")
+             (d/button {:class-name "square"} "5")
+             (d/button {:class-name "square"} "6"))
+   (d/div {:class-name "board-row"}
+             (d/button {:class-name "square"} "7")
+             (d/button {:class-name "square"} "8")
+             (d/button {:class-name "square"} "9"))
+   ))
 
-(defnc app []
-  (let [[state set-state] (hooks/use-state {:name "Helix User"})]
-    (d/div
-     (d/h1 "Welcome!")
-      ;; create elements out of components
-     ($ greeting {:name (:name state)})
-     (d/input {:value (:name state)
-               :on-change #(set-state assoc :name (.. % -target -value))}))))
-
+(defnc app [] 
+  ($ board))
 
 (defn init []
   ;; start your app with your favorite React renderer  
   (let [root (rdom/createRoot (js/document.getElementById "app"))]
-    (.render root ($ app))))
-
+    (.render root ($ r/StrictMode ($ app)))))  ; StrictMode
