@@ -5,21 +5,24 @@
             ["react" :as r]
             ["react-dom/client" :as rdom]))
 
+(defnc square [{:keys [value]}]
+  (d/button {:class-name "square"} value))
+
 (defnc board [] 
   (<>
    (d/div {:class-name "board-row"}
-             (d/button {:class-name "square"
-                        :on-click #(println "clicked")} "1")
-             (d/button {:class-name "square"} "2")
-             (d/button {:class-name "square"} "3")) 
+          ($ square {:value 1})
+          ($ square {:value 2})
+          ($ square {:value 3})
+             ) 
    (d/div {:class-name "board-row"}
-             (d/button {:class-name "square"} "4")
-             (d/button {:class-name "square"} "5")
-             (d/button {:class-name "square"} "6"))
+          ($ square {:value 4})
+          ($ square {:value 5})
+          ($ square {:value 6}))
    (d/div {:class-name "board-row"}
-             (d/button {:class-name "square"} "7")
-             (d/button {:class-name "square"} "8")
-             (d/button {:class-name "square"} "9"))
+          ($ square {:value 7})
+          ($ square {:value 8})
+          ($ square {:value 9}))
    ))
 
 (defnc app [] 
