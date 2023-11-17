@@ -11,8 +11,13 @@
             value))
 
 (defnc board [] 
-  (let [[squares set-squares] (hooks/use-state (vec (repeat 9 nil)))
-        handle-click (fn [i] (set-squares (assoc squares i "X")))]
+  (let [[x-is-next? set-x-is-next?] (hooks/use-state true)
+        [squares set-squares] (hooks/use-state (vec (repeat 9 nil))) 
+        handle-click (fn [i]
+                       (when (nil? (get squares i))
+                         (set-squares (assoc squares i (if x-is-next? "X" "O")))
+                         (set-x-is-next? (not x-is-next?))))] 
+    
     (<>
      (d/div {:class-name "board-row"}
             ($ square {:value (get squares 0) :on-click #(handle-click 0)})
