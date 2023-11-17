@@ -5,25 +5,27 @@
             ["react" :as r]
             ["react-dom/client" :as rdom]))
 
-(defnc square [{:keys [value]}]
-  (d/button {:class-name "square"} value))
+(defnc square []
+  (let [[value, set-value] (hooks/use-state nil)
+        handle-click #(set-value "X")]
+       (d/button {:class-name "square"
+                  :on-click handle-click} 
+                 value)))
 
 (defnc board [] 
   (<>
    (d/div {:class-name "board-row"}
-          ($ square {:value 1})
-          ($ square {:value 2})
-          ($ square {:value 3})
-             ) 
+          ($ square)
+          ($ square)
+          ($ square)) 
    (d/div {:class-name "board-row"}
-          ($ square {:value 4})
-          ($ square {:value 5})
-          ($ square {:value 6}))
+          ($ square)
+          ($ square)
+          ($ square))
    (d/div {:class-name "board-row"}
-          ($ square {:value 7})
-          ($ square {:value 8})
-          ($ square {:value 9}))
-   ))
+          ($ square)
+          ($ square)
+          ($ square))))
 
 (defnc app [] 
   ($ board))
