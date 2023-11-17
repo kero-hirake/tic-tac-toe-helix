@@ -5,27 +5,27 @@
             ["react" :as r]
             ["react-dom/client" :as rdom]))
 
-(defnc square []
-  (let [[value, set-value] (hooks/use-state nil)
-        handle-click #(set-value "X")]
-       (d/button {:class-name "square"
-                  :on-click handle-click} 
-                 value)))
+(defnc square [{:keys [value on-click]}] 
+  (d/button {:class-name "square"
+             :on-click on-click} 
+            value))
 
 (defnc board [] 
-  (<>
-   (d/div {:class-name "board-row"}
-          ($ square)
-          ($ square)
-          ($ square)) 
-   (d/div {:class-name "board-row"}
-          ($ square)
-          ($ square)
-          ($ square))
-   (d/div {:class-name "board-row"}
-          ($ square)
-          ($ square)
-          ($ square))))
+  (let [[squares set-squares] (hooks/use-state (vec (repeat 9 nil)))
+        handle-click (fn [i] (set-squares (assoc squares i "X")))]
+    (<>
+     (d/div {:class-name "board-row"}
+            ($ square {:value (get squares 0) :on-click #(handle-click 0)})
+            ($ square {:value (get squares 1) :on-click #(handle-click 1)})
+            ($ square {:value (get squares 2) :on-click #(handle-click 2)})) 
+     (d/div {:class-name "board-row"}
+            ($ square {:value (get squares 3) :on-click #(handle-click 3)})
+            ($ square {:value (get squares 4) :on-click #(handle-click 4)})
+            ($ square {:value (get squares 5) :on-click #(handle-click 5)}))
+     (d/div {:class-name "board-row"}
+            ($ square {:value (get squares 6) :on-click #(handle-click 6)})
+            ($ square {:value (get squares 7) :on-click #(handle-click 7)})
+            ($ square {:value (get squares 8) :on-click #(handle-click 8)})))))
 
 (defnc app [] 
   ($ board))
